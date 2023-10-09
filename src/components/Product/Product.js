@@ -1,6 +1,6 @@
 import styles from './Product.module.scss';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import ProductImage from '../ProductImage/ProductImage';
 import ProductForm from '../ProductForm/ProductForm';
 
@@ -9,13 +9,10 @@ const Product = (props) => {
   const [currentColor, setCurrentColor] = useState(props.colors[0]);
   const [currentSize, setCurrentSize] = useState(props.sizes[0]);
 
-  const getPrice = () => {
+  const price = useMemo (() => {
     
     return props.basePrice + currentSize.additionalPrice;
-  };
-
-  const price = getPrice();
-
+  }, [props.basePrice, currentSize.additionalPrice]);
 
   return (
     <article className={styles.product}>
@@ -32,6 +29,7 @@ const Product = (props) => {
     </article>
   )
 };
+
 Product.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
